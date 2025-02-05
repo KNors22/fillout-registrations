@@ -24,6 +24,12 @@ function transferRegistrationToMain(row=FILLOUT_SHEET.getLastRow()) {
 }
 
 
+function transferAllRows() {
+  for (let row = 2; row <= 17; row++) 
+    transferRegistrationToMain(row);
+}
+
+
 function prepareRegistration(rawData) {
 
   /** -> CURRENT SEMESTER INDICES (1-indexed) <-
@@ -63,7 +69,8 @@ function prepareRegistration(rawData) {
   
   // Initial Mapping
   const exportObj = {
-    'timestamp' : formattedTimestamp,
+    //'timestamp' : formattedTimestamp,
+    'timestamp' : timestamp,
     'email' : get(COLUMN_MAP.EMAIL),
     'firstName' : get(COLUMN_MAP.FIRST_NAME),
     'lastName' : get(COLUMN_MAP.LAST_NAME),
@@ -89,7 +96,7 @@ function prepareRegistration(rawData) {
   const refPlatform = get(COLUMN_MAP.REF_PLATFORM);
 
   // Add referral information to exportObj
-  exportObj['referral'] = `${referral} ${refPlatform} ${refPerson}`.trim();
+  exportObj['referral'] = `${referral},${refPlatform},${refPerson}`.trim();
 
   return JSON.stringify(exportObj);
 }
